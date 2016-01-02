@@ -49,17 +49,35 @@ int main() {
 		}
 	}
 
+
 	img.shift(0, -1, true, true);
 	r(img, 0, 0) = 5;
 
+	VGImage img2(width, height);
+
+	//FILL THE IMAGE
+	counter = 0;
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			printf("%i ", img.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE]);
+			img2.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE] = counter;
+			img2.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE + sizeof(unsigned char)] = counter;
+			img2.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE + 2 * sizeof(unsigned char)] = counter;
+			img2.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE + 3 * sizeof(unsigned char)] = counter;
+			counter++;
 		}
-		printf("\n");
 	}
 
-	int temp = 0;
+
+	img2.shift(0, -1, true, true);
+	r(img2, 0, 0) = 5;
+
+	img.printImage();
+
+	img2.printImage();
+	img.substract(img2);
+	img.printImage();
 	testGenerator();
+	int temp = 0;
+
 	scanf("%i", &temp);
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "VGImage.h"
+#include "stdio.h"
+#include <math.h>
 
 VGImage::VGImage() {
 	// An invalid image.
@@ -24,8 +26,10 @@ VGImage::VGImage(unsigned int width, unsigned int height) {
 }
 
 VGImage::~VGImage() {
-	if (this->initialized)
+	if (this->initialized) {
 		free(this->rawData);
+		this->initialized = false;
+	}
 }
 
 Pixel VGImage::getPixel(unsigned int x, unsigned int y) {
@@ -58,6 +62,50 @@ unsigned int VGImage::getWidth() {
 bool VGImage::isInitialized() {
 	return this->initialized;
 }
+
+void VGImage::add(VGImage image1) {
+
+	if (!image1.isInitialized() || !this->isInitialized()) {
+		return;
+	}
+
+	int minHeight = fmin(image1.getHeight(), this->getHeight());
+	int minWidth = fmin(image1.getWidth(), this->getWidth());
+
+	for (int i = 0; i < minWidth; i++) {
+		for (int j = 0; j < minHeight; j++) {
+			this->rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE] += image1.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE];
+		}
+	}
+}
+
+void VGImage::substract(VGImage image1) {
+	if (!image1.isInitialized() || !this->isInitialized()) {
+		return;
+	}
+
+	int minHeight = fmin(image1.getHeight(), this->getHeight());
+	int minWidth = fmin(image1.getWidth(), this->getWidth());
+
+	for (int i = 0; i < minWidth; i++) {
+		for (int j = 0; j < minHeight; j++) {
+			this->rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE] -= image1.rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE];
+		}
+	}
+}
+
+void VGImage::printImage() {
+	if (!this->isInitialized()) {
+		return;
+	}
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			printf("%i ", this->rawData[i * PIXEL_SIZE * width + j * PIXEL_SIZE]);
+		}
+		printf("\n");
+	}
+}
+
 
 VGImage VGImage::getSubImage(unsigned int startX, unsigned int startY, unsigned int endX, unsigned int endY) {
 	// Sanity check.

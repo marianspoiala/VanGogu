@@ -12,6 +12,7 @@
 #define b(img, x, y) img.rawData[img.rowSize * y + x * PIXEL_SIZE + 2*sizeof(unsigned char)]
 #define a(img, x, y) img.rawData[img.rowSize * y + x * PIXEL_SIZE + 3*sizeof(unsigned char)]
 
+
 //Probably of no use. Ignore this class!
 typedef struct pixel {
 	unsigned char * r = nullptr;
@@ -19,6 +20,23 @@ typedef struct pixel {
 	unsigned char * b = nullptr;
 	unsigned char * a = nullptr;
 	bool isValid = false;
+
+	inline bool operator==(pixel p) {
+		if (p.r == r && p.g == g && p.b == b && p.a == a)
+			return true;
+		else
+			return false;
+	}
+
+	inline pixel operator+(pixel p) {
+		pixel result = pixel();
+		result.a = p.a + *a;
+		result.r = p.r + *r;
+		result.g = p.g + *g;
+		result.b = p.b + *b;
+		return result;
+	}
+
 } Pixel;
 
 class VGImage {
@@ -97,4 +115,11 @@ public:
 	//Basically it will shift the image on the horizontal / vertical plane and
 	//fill the missing parts with the rest of the image. 
 	void shift(int horizontal, int vertical, bool repeat, bool resize);
+
+	//Adds every pixel on all the channels
+	void add(VGImage image);
+	void substract(VGImage image);
+	void printImage();
+
+	//Adds every pixel from the specified channel in current image
 };
