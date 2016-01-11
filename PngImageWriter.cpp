@@ -96,14 +96,6 @@ void PngImageWriter::setPixelValues(png_byte* pixel, int value, int max_iter) {
         pixel[0] = 255;
         pixel[1] = (((value - 512) * 63) / 511) + 64;
         pixel[2] = 0;
-    } else if (value < 2048) {
-        pixel[0] = 255;
-        pixel[1] = (((value - 1024) * 63) / 1023) + 128;
-        pixel[2] = 0;
-    } else if (value < 4096) {
-        pixel[0] = 255;
-        pixel[1] = (((value - 2048) * 63) / 2047) + 192;
-        pixel[2] = 0;
     } else {
         pixel[0] = pixel[1] = 255;
         pixel[2] = 0;
