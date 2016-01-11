@@ -1,7 +1,19 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 
 #include "PngImageWriter.h"
+
+float getrand() {
+  static bool init = false;
+
+  if (!init) {
+    srand(time(NULL));
+    init = true;
+  }
+
+  return ((float)rand() / (float)((unsigned)RAND_MAX + 1)); 
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -10,13 +22,23 @@ int main(int argc, char* argv[]) {
     }
     std::ifstream no_fin("numbers.txt");
 
-    size_t img_width = 1280;
-    size_t img_height = 720;
-    size_t max_iter = 4096; 
+    size_t img_width = 800;
+    size_t img_height = 600;
+    size_t max_iter = 1024; 
 
     float radius = 0.0001;
-    float xCenter = -0.802;
-    float yCenter = -0.177;
+    /**
+     * Good values for xCenter and yCenter are -0.802 and -0.177*
+	 */
+
+    float xCenter = -getrand();
+    float yCenter = -getrand();
+
+    while(xCenter >-0.79 || xCenter < -0.82)
+    	xCenter = -getrand();
+    while(yCenter >-0.16 || yCenter < -0.19)
+    	yCenter = -getrand();
+    printf("%f %f\n",xCenter,yCenter);
     int result = 0;
 
     // Create an image and generate the buffer for it.
