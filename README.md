@@ -1,5 +1,5 @@
 # VanGogu
- -- Create a random image(in our case giff), using fractal geometry.(http://elf.cs.pub.ro/mps/wiki/proiect/proiect-2).--
+   Create a random image(in our case giff), using fractal geometry(http://elf.cs.pub.ro/mps/wiki/proiect/proiect-2).
 
 
 Igescu Maria, 341C1, maria.igescu@gmail.com (team leader)          
